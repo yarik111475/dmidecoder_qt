@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.10)
+set(PROJECT_NAME DMIDECODER)
+set(TARGET_NAME dmidecoder)
+project(${PROJECT_NAME} LANGUAGES CXX VERSION ${GLOBAL_VERSION})
+
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+    "*.h"
+    "*.cpp"
+)
+
+find_package(Qt5 COMPONENTS Core REQUIRED)
+
+add_executable(${TARGET_NAME}
+    ${PROJECT_SOURCES}
+)
+
+target_include_directories(${TARGET_NAME} PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_link_libraries(${TARGET_NAME} PRIVATE
+    Qt5::Core
+    ${WIN_LINKER_LIBS}
+    ${LINUX_LINKER_LIBS}
+)
+
+install(TARGETS ${TARGET_NAME}
+    DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
